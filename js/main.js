@@ -60,9 +60,153 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _import_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./import/components */ "./src/js/import/components.js");
 /* harmony import */ var _import_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_import_components__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _project_slider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./project/slider */ "./src/js/project/slider.js");
+/* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./project/map */ "./src/js/project/map.js");
+/* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_project_map__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _project_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./project/header */ "./src/js/project/header.js");
+/* harmony import */ var _project_header__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_project_header__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
+
+
+
+/***/ }),
+
+/***/ "./src/js/project/header.js":
+/*!**********************************!*\
+  !*** ./src/js/project/header.js ***!
+  \**********************************/
+/***/ (function() {
+
+var header = document.querySelector('.header');
+
+if (header) {
+  var burger = header.querySelector('.burger');
+  var mibileMenu = document.querySelector('.mobile-nav');
+  var close = mibileMenu.querySelector('.close-menu');
+  burger.addEventListener('click', function () {
+    mibileMenu.classList.add('active');
+  });
+  close.addEventListener('click', function () {
+    mibileMenu.classList.remove('active');
+  });
+}
+
+/***/ }),
+
+/***/ "./src/js/project/map.js":
+/*!*******************************!*\
+  !*** ./src/js/project/map.js ***!
+  \*******************************/
+/***/ (function() {
+
+window.onload = function () {
+  var mapInfo = [{
+    underground: "Беговая",
+    adress: "г. Москва, Хорошёвское шоссе, 48",
+    color: "--purple",
+    position: [55.776370, 37.535017]
+  }, {
+    underground: "Проспект Мира",
+    adress: "г. Москва, Проспект Мира, 53",
+    color: "--orange",
+    position: [55.771054, 37.862498]
+  }, {
+    underground: "Раменки",
+    adress: "г. Москва, Столетова, 11",
+    color: "--yellow",
+    position: [55.703753, 37.499695]
+  }, {
+    underground: "Академическая",
+    adress: "г. Москва, Винокурова, 2",
+    color: "--orange",
+    position: [55.689999, 37.580840]
+  }, {
+    underground: "Савёловская",
+    adress: "г. Москва, Складочная, 1 стр 18",
+    color: "--grey",
+    position: [55.801435, 37.592231]
+  }];
+  ymaps.ready(init);
+
+  function init() {
+    var center;
+
+    if (window.innerWidth > 981) {
+      center = [55.757704, 37.318759];
+    } else {
+      center = [55.489311, 37.595243];
+    }
+
+    var myMap = new ymaps.Map("map", {
+      center: center,
+      zoom: 10
+    });
+    var marker = './img/marker.svg';
+    var markerHover = './img/marker-hover.svg';
+    var activeMarker;
+    var mapTitle = document.querySelector('.map__title span');
+    var mapUndergroundText = document.querySelector('.map__block-title span');
+    var mapUndergroundIco = document.querySelector('.under-ico');
+    var mapUndergroundTitle = document.querySelector('.map__block-title--address');
+    var myPlacemark;
+
+    var updateInfo = function updateInfo(ind) {
+      mapTitle.innerHTML = "";
+      mapUndergroundText.innerHTML = "";
+      mapUndergroundTitle.innerHTML = "";
+      mapUndergroundIco.setAttribute('class', 'under-ico');
+      mapTitle.innerHTML = mapInfo[ind].underground;
+      mapUndergroundText.innerHTML = mapInfo[ind].underground;
+      mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
+      mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
+    };
+
+    var updateMarker = function updateMarker(ind) {
+      myMap.geoObjects.removeAll();
+      mapInfo.forEach(function (elemNew, indexNew) {
+        if (ind == indexNew) {
+          activeMarker = markerHover;
+        } else {
+          activeMarker = marker;
+        }
+
+        myPlacemark = new ymaps.Placemark(elemNew.position, {}, {
+          iconLayout: 'default#image',
+          iconImageHref: activeMarker,
+          iconImageSize: [80, 80],
+          iconImageOffset: [-40, -70]
+        });
+        myMap.geoObjects.add(myPlacemark);
+        myPlacemark.events.add('click', function () {
+          updateInfo(indexNew);
+          updateMarker(indexNew);
+        });
+      });
+    };
+
+    mapInfo.forEach(function (elem, index) {
+      if (index == 0) {
+        activeMarker = markerHover;
+        updateInfo(index);
+      } else {
+        activeMarker = marker;
+      }
+
+      myPlacemark = new ymaps.Placemark(elem.position, {}, {
+        iconLayout: 'default#image',
+        iconImageHref: activeMarker,
+        iconImageSize: [80, 80],
+        iconImageOffset: [-40, -70]
+      });
+      myMap.geoObjects.add(myPlacemark);
+      myPlacemark.events.add('click', function () {
+        updateInfo(index);
+        updateMarker(index);
+      });
+    });
+  }
+};
 
 /***/ }),
 
