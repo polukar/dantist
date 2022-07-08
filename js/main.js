@@ -64,6 +64,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_project_map__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _project_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./project/header */ "./src/js/project/header.js");
 /* harmony import */ var _project_header__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_project_header__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _project_video__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./project/video */ "./src/js/project/video.js");
+/* harmony import */ var _project_video__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_project_video__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -225,6 +228,66 @@ var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.reports-slider
   slidesPerView: "auto",
   spaceBetween: 32
 });
+
+/***/ }),
+
+/***/ "./src/js/project/video.js":
+/*!*********************************!*\
+  !*** ./src/js/project/video.js ***!
+  \*********************************/
+/***/ (function() {
+
+var reportSlide = document.querySelectorAll('.report-slide');
+
+var fadeOut = function fadeOut(el, timeout) {
+  el.style.opacity = 1;
+  el.style.transition = "opacity ".concat(timeout, "ms");
+  el.style.opacity = 0;
+  setTimeout(function () {
+    el.style.display = 'none';
+  }, timeout);
+};
+
+var fadeIn = function fadeIn(el, timeout, display) {
+  el.style.opacity = 0;
+  el.style.display = display || 'block';
+  el.style.transition = "opacity ".concat(timeout, "ms");
+  setTimeout(function () {
+    el.style.opacity = 1;
+  }, 10);
+};
+
+if (reportSlide) {
+  window.onload = function () {
+    var stopVideos = function stopVideos(ind) {
+      reportSlide.forEach(function (elem, index) {
+        var buttonPlay = elem.querySelector('.report__play');
+        var video = elem.querySelector('video');
+        video.pause();
+        video.currentTime = 0;
+        video.removeAttribute('controls');
+
+        if (ind != index) {
+          fadeIn(buttonPlay, 300);
+        }
+
+        elem.classList.remove('--is-active');
+      });
+    };
+
+    reportSlide.forEach(function (elem, index) {
+      var buttonPlay = elem.querySelector('.report__play');
+      var video = elem.querySelector('.report__video video');
+      buttonPlay.addEventListener('click', function () {
+        stopVideos(index);
+        video.play();
+        fadeOut(buttonPlay, 300);
+        video.setAttribute('controls', true);
+        elem.classList.add('--is-active');
+      });
+    });
+  };
+}
 
 /***/ })
 
