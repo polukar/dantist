@@ -2612,6 +2612,10 @@ img {
   color: #fff;
 }
 
+.report__message-text span {
+  font-weight: 600;
+}
+
 .report__circle {
   position: absolute;
   left: 50%;
