@@ -1115,6 +1115,7 @@ button.swiper-pagination-bullet {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-appearance: none;
 }
 
 html {
@@ -2897,10 +2898,6 @@ img {
     display: none;
   }
 
-  .header__wrap {
-    margin-bottom: 0px;
-  }
-
   .nav__link {
     font-size: 10px;
   }
@@ -3017,6 +3014,14 @@ img {
 }
 
 @media (max-width: 768px) {
+  .header__wrap {
+    margin-bottom: 0px;
+  }
+
+  .contacts__scroll {
+    display: none;
+  }
+
   .header {
     padding-top: 16px;
   }
@@ -3457,6 +3462,13 @@ img {
   .underground__info {
     width: calc(100% - 43px);
     padding-right: 5px;
+  }
+
+  .all-video {
+    font-size: 14px;
+    line-height: 14px;
+    height: 48px;
+    bottom: 67px;
   }
 }
 /*# sourceMappingURL=maps/main.css.map */
