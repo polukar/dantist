@@ -276,9 +276,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/swiper.esm.js");
 
 var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.reports-slider ', {
+  modules: [swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination],
   loop: true,
   slidesPerView: "auto",
-  spaceBetween: 32
+  spaceBetween: 35,
+  centeredSlides: true,
+  pagination: {
+    el: '.swiper-pagination'
+  },
+  navigation: {
+    nextEl: '.slider-next',
+    prevEl: '.slider-prev'
+  },
+  breakpoints: {
+    600: {
+      spaceBetween: 32,
+      slidesPerView: "auto"
+    }
+  }
 });
 
 /***/ }),
@@ -318,7 +333,7 @@ if (reportSlide) {
         var video = elem.querySelector('video');
         var trigger = elem.querySelector('.report-slide__trigger');
         video.pause();
-        video.currentTime = 0;
+        video.load();
         video.removeAttribute('controls');
         trigger.classList.remove('--fade');
 
@@ -342,16 +357,18 @@ if (reportSlide) {
       var video = elem.querySelector('.report__video video');
       var trigger = elem.querySelector('.report-slide__trigger');
       elem.addEventListener('click', function () {
-        stopVideos(index);
-        trigger.classList.add('--fade');
-        fadeOut(buttonPlay, 300);
-        video.setAttribute('controls', true);
-        video.muted = false;
-        elem.classList.add('--is-active');
-        setTimeout(function () {
-          video.currentTime = 0;
-          video.play();
-        }, 200);
+        if (!elem.classList.contains('--is-active')) {
+          stopVideos(index);
+          trigger.classList.add('--fade');
+          fadeOut(buttonPlay, 300);
+          video.setAttribute('controls', true);
+          video.muted = false;
+          elem.classList.add('--is-active');
+          setTimeout(function () {
+            video.currentTime = 0;
+            video.play();
+          }, 200);
+        }
       });
 
       if (!elem.classList.contains('--is-active')) {
@@ -360,8 +377,7 @@ if (reportSlide) {
           video.play();
         });
         trigger.addEventListener('mouseout', function () {
-          video.pause();
-          video.currentTime = 0;
+          video.load();
         });
       }
     });
