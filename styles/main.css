@@ -1923,20 +1923,21 @@ img {
   text-align: center;
 }
 
-.btn--orange.btn--white {
+.price:not(.price--big) .btn--orange.btn--white {
   color: #F76633;
+  border: 2px solid #F76633;
 }
 
-.btn--orange.btn--white::before {
+.price:not(.price--big) .btn--orange.btn--white::before {
   opacity: 0;
 }
 
-.btn--orange.btn--white:hover span {
+.price:not(.price--big) .btn--orange.btn--white:hover span {
   color: #fff;
   transition: 0.4s;
 }
 
-.btn--orange.btn--white:hover:before {
+.price:not(.price--big) .btn--orange.btn--white:hover:before {
   opacity: 1;
 }
 

@@ -67,6 +67,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./project/map */ "./src/js/project/map.js");
 /* harmony import */ var _project_anchor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./project/anchor */ "./src/js/project/anchor.js");
 /* harmony import */ var _project_anchor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_project_anchor__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _project_img__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./project/img */ "./src/js/project/img.js");
+/* harmony import */ var _project_img__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_project_img__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -145,6 +148,25 @@ if (header) {
       header.classList.remove('--scroll');
     }
   });
+}
+
+/***/ }),
+
+/***/ "./src/js/project/img.js":
+/*!*******************************!*\
+  !*** ./src/js/project/img.js ***!
+  \*******************************/
+/***/ (function() {
+
+var imgSrc = document.querySelectorAll('[data-src]');
+
+if (imgSrc) {
+  window.onload = function () {
+    imgSrc.forEach(function (elem) {
+      var dataSrc = elem.getAttribute('data-src');
+      elem.src = dataSrc;
+    });
+  };
 }
 
 /***/ }),
