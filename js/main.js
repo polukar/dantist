@@ -159,76 +159,100 @@ if (header) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ymaps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ymaps */ "./node_modules/ymaps/dist/ymaps.esm.js");
 
-var mapInfo = [{
-  underground: "Беговая",
-  adress: "г. Москва, Хорошёвское шоссе, 48",
-  color: "--purple",
-  position: [55.776292, 37.535549]
-}, {
-  underground: "Проспект Мира",
-  adress: "г. Москва, Проспект Мира 53с1",
-  color: "--orange",
-  position: [55.784804, 37.634170]
-}, {
-  underground: "Раменки",
-  adress: "г. Москва, Столетова, 11",
-  color: "--yellow",
-  position: [55.703499, 37.499083]
-}, {
-  underground: "Академическая",
-  adress: "г. Москва, Винокурова, 2",
-  color: "--orange",
-  position: [55.689312, 37.581490]
-}, {
-  underground: "Савёловская",
-  adress: "г. Москва, Складочная, 1 стр 18",
-  color: "--grey",
-  position: [55.801435, 37.592231]
-}];
-ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2.1/?apikey=17c2ce43-9cd7-4184-94de-a46354f7f503&lang=ru_RU').then(function (maps) {
-  var center;
 
-  if (window.innerWidth > 981) {
-    center = [55.757704, 37.318759];
-  } else {
-    center = [55.489311, 37.595243];
-  }
+window.onload = function () {
+  var mapInfo = [{
+    underground: "Беговая",
+    adress: "г. Москва, Хорошёвское шоссе, 48",
+    color: "--purple",
+    position: [55.776292, 37.535549]
+  }, {
+    underground: "Проспект Мира",
+    adress: "г. Москва, Проспект Мира 53с1",
+    color: "--orange",
+    position: [55.784804, 37.634170]
+  }, {
+    underground: "Раменки",
+    adress: "г. Москва, Столетова, 11",
+    color: "--yellow",
+    position: [55.703499, 37.499083]
+  }, {
+    underground: "Академическая",
+    adress: "г. Москва, Винокурова, 2",
+    color: "--orange",
+    position: [55.689312, 37.581490]
+  }, {
+    underground: "Савёловская",
+    adress: "г. Москва, Складочная, 1 стр 18",
+    color: "--grey",
+    position: [55.801435, 37.592231]
+  }];
+  ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2.1/?apikey=17c2ce43-9cd7-4184-94de-a46354f7f503&lang=ru_RU').then(function (maps) {
+    var center;
 
-  var myMap = new maps.Map('map', {
-    center: center,
-    zoom: 10
-  });
-  myMap.behaviors.disable('scrollZoom');
-  var marker = './img/marker.svg';
-  var markerHover = './img/marker-hover.svg';
-  var activeMarker;
-  var mapTitle = document.querySelector('.map__title span');
-  var mapUndergroundText = document.querySelector('.map__block-title span');
-  var mapUndergroundIco = document.querySelector('.under-ico');
-  var mapUndergroundTitle = document.querySelector('.map__block-title--address');
-  var myPlacemark;
+    if (window.innerWidth > 981) {
+      center = [55.757704, 37.318759];
+    } else {
+      center = [55.489311, 37.595243];
+    }
 
-  var updateInfo = function updateInfo(ind) {
-    mapTitle.innerHTML = "";
-    mapUndergroundText.innerHTML = "";
-    mapUndergroundTitle.innerHTML = "";
-    mapUndergroundIco.setAttribute('class', 'under-ico');
-    mapTitle.innerHTML = mapInfo[ind].underground;
-    mapUndergroundText.innerHTML = mapInfo[ind].underground;
-    mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
-    mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
-  };
+    var myMap = new maps.Map('map', {
+      center: center,
+      zoom: 10
+    });
+    myMap.behaviors.disable('scrollZoom');
+    var marker = './img/marker.svg';
+    var markerHover = './img/marker-hover.svg';
+    var activeMarker;
+    var mapTitle = document.querySelector('.map__title span');
+    var mapUndergroundText = document.querySelector('.map__block-title span');
+    var mapUndergroundIco = document.querySelector('.under-ico');
+    var mapUndergroundTitle = document.querySelector('.map__block-title--address');
+    var myPlacemark;
 
-  var updateMarker = function updateMarker(ind) {
-    myMap.geoObjects.removeAll();
-    mapInfo.forEach(function (elemNew, indexNew) {
-      if (ind == indexNew) {
+    var updateInfo = function updateInfo(ind) {
+      mapTitle.innerHTML = "";
+      mapUndergroundText.innerHTML = "";
+      mapUndergroundTitle.innerHTML = "";
+      mapUndergroundIco.setAttribute('class', 'under-ico');
+      mapTitle.innerHTML = mapInfo[ind].underground;
+      mapUndergroundText.innerHTML = mapInfo[ind].underground;
+      mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
+      mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
+    };
+
+    var updateMarker = function updateMarker(ind) {
+      myMap.geoObjects.removeAll();
+      mapInfo.forEach(function (elemNew, indexNew) {
+        if (ind == indexNew) {
+          activeMarker = markerHover;
+        } else {
+          activeMarker = marker;
+        }
+
+        myPlacemark = new maps.Placemark(elemNew.position, {}, {
+          iconLayout: 'default#image',
+          iconImageHref: activeMarker,
+          iconImageSize: [80, 80],
+          iconImageOffset: [-40, -70]
+        });
+        myMap.geoObjects.add(myPlacemark);
+        myPlacemark.events.add('click', function () {
+          updateInfo(indexNew);
+          updateMarker(indexNew);
+        });
+      });
+    };
+
+    mapInfo.forEach(function (elem, index) {
+      if (index == 0) {
         activeMarker = markerHover;
+        updateInfo(index);
       } else {
         activeMarker = marker;
       }
 
-      myPlacemark = new maps.Placemark(elemNew.position, {}, {
+      myPlacemark = new maps.Placemark(elem.position, {}, {
         iconLayout: 'default#image',
         iconImageHref: activeMarker,
         iconImageSize: [80, 80],
@@ -236,35 +260,14 @@ ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2
       });
       myMap.geoObjects.add(myPlacemark);
       myPlacemark.events.add('click', function () {
-        updateInfo(indexNew);
-        updateMarker(indexNew);
+        updateInfo(index);
+        updateMarker(index);
       });
     });
-  };
-
-  mapInfo.forEach(function (elem, index) {
-    if (index == 0) {
-      activeMarker = markerHover;
-      updateInfo(index);
-    } else {
-      activeMarker = marker;
-    }
-
-    myPlacemark = new maps.Placemark(elem.position, {}, {
-      iconLayout: 'default#image',
-      iconImageHref: activeMarker,
-      iconImageSize: [80, 80],
-      iconImageOffset: [-40, -70]
-    });
-    myMap.geoObjects.add(myPlacemark);
-    myPlacemark.events.add('click', function () {
-      updateInfo(index);
-      updateMarker(index);
-    });
+  }).catch(function (error) {
+    return console.log('Failed to load Yandex Maps', error);
   });
-}).catch(function (error) {
-  return console.log('Failed to load Yandex Maps', error);
-});
+};
 
 /***/ }),
 
