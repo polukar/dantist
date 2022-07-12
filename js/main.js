@@ -65,7 +65,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_video__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./project/video */ "./src/js/project/video.js");
 /* harmony import */ var _project_video__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_project_video__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./project/map */ "./src/js/project/map.js");
-/* harmony import */ var _project_map__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_project_map__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _project_anchor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./project/anchor */ "./src/js/project/anchor.js");
 /* harmony import */ var _project_anchor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_project_anchor__WEBPACK_IMPORTED_MODULE_6__);
 
@@ -154,37 +153,39 @@ if (header) {
 /*!*******************************!*\
   !*** ./src/js/project/map.js ***!
   \*******************************/
-/***/ (function() {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var ymaps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ymaps */ "./node_modules/ymaps/dist/ymaps.esm.js");
 
 var mapInfo = [{
   underground: "Беговая",
   adress: "г. Москва, Хорошёвское шоссе, 48",
   color: "--purple",
-  position: [55.776370, 37.535017]
+  position: [55.776292, 37.535549]
 }, {
   underground: "Проспект Мира",
-  adress: "г. Москва, Проспект Мира, 53",
+  adress: "г. Москва, Проспект Мира 53с1",
   color: "--orange",
-  position: [55.771054, 37.862498]
+  position: [55.784804, 37.634170]
 }, {
   underground: "Раменки",
   adress: "г. Москва, Столетова, 11",
   color: "--yellow",
-  position: [55.703753, 37.499695]
+  position: [55.703499, 37.499083]
 }, {
   underground: "Академическая",
   adress: "г. Москва, Винокурова, 2",
   color: "--orange",
-  position: [55.689999, 37.580840]
+  position: [55.689312, 37.581490]
 }, {
   underground: "Савёловская",
   adress: "г. Москва, Складочная, 1 стр 18",
   color: "--grey",
   position: [55.801435, 37.592231]
 }];
-ymaps.ready(init);
-
-function init() {
+ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2.1/?apikey=17c2ce43-9cd7-4184-94de-a46354f7f503&lang=ru_RU').then(function (maps) {
   var center;
 
   if (window.innerWidth > 981) {
@@ -193,7 +194,7 @@ function init() {
     center = [55.489311, 37.595243];
   }
 
-  var myMap = new ymaps.Map("map", {
+  var myMap = new maps.Map('map', {
     center: center,
     zoom: 10
   });
@@ -227,7 +228,7 @@ function init() {
         activeMarker = marker;
       }
 
-      myPlacemark = new ymaps.Placemark(elemNew.position, {}, {
+      myPlacemark = new maps.Placemark(elemNew.position, {}, {
         iconLayout: 'default#image',
         iconImageHref: activeMarker,
         iconImageSize: [80, 80],
@@ -249,7 +250,7 @@ function init() {
       activeMarker = marker;
     }
 
-    myPlacemark = new ymaps.Placemark(elem.position, {}, {
+    myPlacemark = new maps.Placemark(elem.position, {}, {
       iconLayout: 'default#image',
       iconImageHref: activeMarker,
       iconImageSize: [80, 80],
@@ -261,7 +262,9 @@ function init() {
       updateMarker(index);
     });
   });
-}
+}).catch(function (error) {
+  return console.log('Failed to load Yandex Maps', error);
+});
 
 /***/ }),
 
@@ -326,62 +329,67 @@ var fadeIn = function fadeIn(el, timeout, display) {
 };
 
 if (reportSlide) {
-  window.onload = function () {
-    var stopVideos = function stopVideos(ind) {
-      reportSlide.forEach(function (elem, index) {
-        var buttonPlay = elem.querySelector('.report__play');
-        var video = elem.querySelector('video');
-        var trigger = elem.querySelector('.report-slide__trigger');
-        video.pause();
-        video.load();
-        video.removeAttribute('controls');
-        trigger.classList.remove('--fade');
-
-        if (ind != index) {
-          fadeIn(buttonPlay, 300);
-        }
-
-        elem.classList.remove('--is-active');
-      });
-    };
-
-    window.addEventListener('click', function (e) {
-      var target = e.target || e.srcElement || e.currentTarget;
-
-      if (!reportSlider.contains(target)) {
-        stopVideos(100);
-      }
-    });
+  var stopVideos = function stopVideos(ind) {
     reportSlide.forEach(function (elem, index) {
       var buttonPlay = elem.querySelector('.report__play');
-      var video = elem.querySelector('.report__video video');
+      var video = elem.querySelector('video');
       var trigger = elem.querySelector('.report-slide__trigger');
-      elem.addEventListener('click', function () {
-        if (!elem.classList.contains('--is-active')) {
-          stopVideos(index);
-          trigger.classList.add('--fade');
-          fadeOut(buttonPlay, 300);
-          video.setAttribute('controls', true);
-          video.muted = false;
-          elem.classList.add('--is-active');
-          setTimeout(function () {
-            video.currentTime = 0;
-            video.play();
-          }, 200);
-        }
-      });
+      video.pause();
+      video.load();
+      video.removeAttribute('controls');
+      trigger.classList.remove('--fade');
 
-      if (!elem.classList.contains('--is-active')) {
-        trigger.addEventListener('mouseover', function () {
-          video.muted = true;
-          video.play();
-        });
-        trigger.addEventListener('mouseout', function () {
-          video.load();
-        });
+      if (ind != index) {
+        fadeIn(buttonPlay, 300);
       }
+
+      elem.classList.remove('--is-active');
     });
   };
+
+  window.addEventListener('click', function (e) {
+    var target = e.target || e.srcElement || e.currentTarget;
+
+    if (!reportSlider.contains(target)) {
+      stopVideos(100);
+    }
+  });
+  reportSlide.forEach(function (elem, index) {
+    var buttonPlay = elem.querySelector('.report__play');
+    var video = elem.querySelector('.report__video video');
+    var trigger = elem.querySelector('.report-slide__trigger');
+    var close = elem.querySelector('.slider__close ');
+    elem.addEventListener('click', function () {
+      if (!elem.classList.contains('--is-active')) {
+        stopVideos(index);
+        trigger.classList.add('--fade');
+        fadeOut(buttonPlay, 300);
+        video.setAttribute('controls', true);
+        video.muted = false;
+        elem.classList.add('--is-active');
+        setTimeout(function () {
+          video.currentTime = 0;
+          video.play();
+        }, 200);
+      }
+    });
+    close.addEventListener('click', function () {
+      video.load();
+      setTimeout(function () {
+        stopVideos(100);
+      }, 100);
+    });
+
+    if (!elem.classList.contains('--is-active')) {
+      trigger.addEventListener('mouseover', function () {
+        video.muted = true;
+        video.play();
+      });
+      trigger.addEventListener('mouseout', function () {
+        video.load();
+      });
+    }
+  });
 }
 
 /***/ })
