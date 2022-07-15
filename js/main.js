@@ -69,6 +69,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_anchor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_project_anchor__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _project_load__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./project/load */ "./src/js/project/load.js");
 /* harmony import */ var _project_load__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_project_load__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./project/qwiz */ "./src/js/project/qwiz.js");
+/* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_project_qwiz__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -142,7 +145,16 @@ if (header) {
   document.addEventListener('scroll', function () {
     var posTop = document.body.getBoundingClientRect().top;
 
-    if (-posTop > 200) {
+    if (-posTop > 5) {
+      header.classList.add('--scroll');
+    } else {
+      header.classList.remove('--scroll');
+    }
+  });
+  document.addEventListener('ready', function () {
+    var posTop = document.body.getBoundingClientRect().top;
+
+    if (-posTop > 5) {
       header.classList.add('--scroll');
     } else {
       header.classList.remove('--scroll');
@@ -185,100 +197,76 @@ if (imgSrc) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ymaps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ymaps */ "./node_modules/ymaps/dist/ymaps.esm.js");
 
+var mapInfo = [{
+  underground: "Беговая",
+  adress: "г. Москва, Хорошёвское шоссе, 48",
+  color: "--purple",
+  position: [55.776292, 37.535549]
+}, {
+  underground: "Проспект Мира",
+  adress: "г. Москва, Проспект Мира 53с1",
+  color: "--orange",
+  position: [55.784804, 37.634170]
+}, {
+  underground: "Раменки",
+  adress: "г. Москва, Столетова, 11",
+  color: "--yellow",
+  position: [55.703499, 37.499083]
+}, {
+  underground: "Академическая",
+  adress: "г. Москва, Винокурова, 2",
+  color: "--orange",
+  position: [55.689312, 37.581490]
+}, {
+  underground: "Савёловская",
+  adress: "г. Москва, Складочная, 1 стр 18",
+  color: "--grey",
+  position: [55.801435, 37.592231]
+}];
+ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2.1/?apikey=c5b15538-f5b4-4065-8803-d2f4e3b1746f&lang=ru_RU').then(function (maps) {
+  var center;
 
-window.onload = function () {
-  var mapInfo = [{
-    underground: "Беговая",
-    adress: "г. Москва, Хорошёвское шоссе, 48",
-    color: "--purple",
-    position: [55.776292, 37.535549]
-  }, {
-    underground: "Проспект Мира",
-    adress: "г. Москва, Проспект Мира 53с1",
-    color: "--orange",
-    position: [55.784804, 37.634170]
-  }, {
-    underground: "Раменки",
-    adress: "г. Москва, Столетова, 11",
-    color: "--yellow",
-    position: [55.703499, 37.499083]
-  }, {
-    underground: "Академическая",
-    adress: "г. Москва, Винокурова, 2",
-    color: "--orange",
-    position: [55.689312, 37.581490]
-  }, {
-    underground: "Савёловская",
-    adress: "г. Москва, Складочная, 1 стр 18",
-    color: "--grey",
-    position: [55.801435, 37.592231]
-  }];
-  ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2.1/?apikey=17c2ce43-9cd7-4184-94de-a46354f7f503&lang=ru_RU').then(function (maps) {
-    var center;
+  if (window.innerWidth > 981) {
+    center = [55.757704, 37.318759];
+  } else {
+    center = [55.489311, 37.595243];
+  }
 
-    if (window.innerWidth > 981) {
-      center = [55.757704, 37.318759];
-    } else {
-      center = [55.489311, 37.595243];
-    }
+  var myMap = new maps.Map('map', {
+    center: center,
+    zoom: 10
+  });
+  myMap.behaviors.disable('scrollZoom');
+  var marker = './img/marker.svg';
+  var markerHover = './img/marker-hover.svg';
+  var activeMarker;
+  var mapTitle = document.querySelector('.map__title span');
+  var mapUndergroundText = document.querySelector('.map__block-title span');
+  var mapUndergroundIco = document.querySelector('.under-ico');
+  var mapUndergroundTitle = document.querySelector('.map__block-title--address');
+  var myPlacemark;
 
-    var myMap = new maps.Map('map', {
-      center: center,
-      zoom: 10
-    });
-    myMap.behaviors.disable('scrollZoom');
-    var marker = './img/marker.svg';
-    var markerHover = './img/marker-hover.svg';
-    var activeMarker;
-    var mapTitle = document.querySelector('.map__title span');
-    var mapUndergroundText = document.querySelector('.map__block-title span');
-    var mapUndergroundIco = document.querySelector('.under-ico');
-    var mapUndergroundTitle = document.querySelector('.map__block-title--address');
-    var myPlacemark;
+  var updateInfo = function updateInfo(ind) {
+    mapTitle.innerHTML = "";
+    mapUndergroundText.innerHTML = "";
+    mapUndergroundTitle.innerHTML = "";
+    mapUndergroundIco.setAttribute('class', 'under-ico');
+    mapTitle.innerHTML = mapInfo[ind].underground;
+    mapUndergroundText.innerHTML = mapInfo[ind].underground;
+    mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
+    mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
+  };
 
-    var updateInfo = function updateInfo(ind) {
-      mapTitle.innerHTML = "";
-      mapUndergroundText.innerHTML = "";
-      mapUndergroundTitle.innerHTML = "";
-      mapUndergroundIco.setAttribute('class', 'under-ico');
-      mapTitle.innerHTML = mapInfo[ind].underground;
-      mapUndergroundText.innerHTML = mapInfo[ind].underground;
-      mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
-      mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
-    };
-
-    var updateMarker = function updateMarker(ind) {
-      myMap.geoObjects.removeAll();
-      mapInfo.forEach(function (elemNew, indexNew) {
-        if (ind == indexNew) {
-          activeMarker = markerHover;
-        } else {
-          activeMarker = marker;
-        }
-
-        myPlacemark = new maps.Placemark(elemNew.position, {}, {
-          iconLayout: 'default#image',
-          iconImageHref: activeMarker,
-          iconImageSize: [80, 80],
-          iconImageOffset: [-40, -70]
-        });
-        myMap.geoObjects.add(myPlacemark);
-        myPlacemark.events.add('click', function () {
-          updateInfo(indexNew);
-          updateMarker(indexNew);
-        });
-      });
-    };
-
-    mapInfo.forEach(function (elem, index) {
-      if (index == 0) {
+  var updateMarker = function updateMarker(ind) {
+    myMap.geoObjects.removeAll();
+    mapInfo.forEach(function (elemNew, indexNew) {
+      if (ind == indexNew) {
         activeMarker = markerHover;
-        updateInfo(index);
       } else {
         activeMarker = marker;
       }
 
-      myPlacemark = new maps.Placemark(elem.position, {}, {
+      myPlacemark = new maps.Placemark(elemNew.position, {}, {
         iconLayout: 'default#image',
         iconImageHref: activeMarker,
         iconImageSize: [80, 80],
@@ -286,14 +274,65 @@ window.onload = function () {
       });
       myMap.geoObjects.add(myPlacemark);
       myPlacemark.events.add('click', function () {
-        updateInfo(index);
-        updateMarker(index);
+        updateInfo(indexNew);
+        updateMarker(indexNew);
       });
     });
-  }).catch(function (error) {
-    return console.log('Failed to load Yandex Maps', error);
+  };
+
+  mapInfo.forEach(function (elem, index) {
+    if (index == 0) {
+      activeMarker = markerHover;
+      updateInfo(index);
+    } else {
+      activeMarker = marker;
+    }
+
+    myPlacemark = new maps.Placemark(elem.position, {}, {
+      iconLayout: 'default#image',
+      iconImageHref: activeMarker,
+      iconImageSize: [80, 80],
+      iconImageOffset: [-40, -70]
+    });
+    myMap.geoObjects.add(myPlacemark);
+    myPlacemark.events.add('click', function () {
+      updateInfo(index);
+      updateMarker(index);
+    });
   });
-};
+}).catch(function (error) {
+  return console.log('Failed to load Yandex Maps', error);
+});
+
+/***/ }),
+
+/***/ "./src/js/project/qwiz.js":
+/*!********************************!*\
+  !*** ./src/js/project/qwiz.js ***!
+  \********************************/
+/***/ (function() {
+
+(function (w, d, s, o) {
+  var j = d.createElement(s);
+  j.async = true;
+  j.src = '//script.marquiz.ru/v2.js';
+
+  j.onload = function () {
+    if (document.readyState !== 'loading') Marquiz.init(o);else document.addEventListener("DOMContentLoaded", function () {
+      Marquiz.init(o);
+    });
+  };
+
+  d.head.insertBefore(j, d.head.firstElementChild);
+})(window, document, 'script', {
+  host: '//quiz.marquiz.ru',
+  region: 'eu',
+  id: '62862ff8966fd2004fd56f17',
+  autoOpen: false,
+  autoOpenFreq: 'once',
+  openOnExit: false,
+  disableOnMobile: false
+});
 
 /***/ }),
 
