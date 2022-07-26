@@ -3423,6 +3423,62 @@ img {
   z-index: 10;
 }
 
+.how {
+  padding: 180px 0;
+}
+
+.how__title {
+  text-align: center;
+}
+
+.how__title h2 {
+  margin-bottom: 15px;
+}
+
+.how__title .winner__text {
+  max-width: 570px;
+  margin: 0 auto 30px;
+  font-size: 28px;
+}
+
+.how__list {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.how__plus {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(136.84deg, #FFE292 14.01%, #FFD562 20.54%, #FFE2A0 25.56%, #FCC266 38.9%, #FFDD9A 61.75%, #E98B34 83.08%, #FFE292 88.64%);
+}
+
+.how__plus:after,
+.how__plus:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 3px;
+  background-color: #000;
+}
+
+.how__plus:before {
+  transform: translate(-50%, -50%) rotateZ(90deg);
+}
+
+.how__item {
+  width: calc(50% - 6px);
+  background: linear-gradient(136.84deg, #FFE292 14.01%, #FFD562 20.54%, #FFE2A0 25.56%, #FCC266 38.9%, #FFDD9A 61.75%, #E98B34 83.08%, #FFE292 88.64%);
+}
+
 @media (min-width: 600px) {
   .report-slide.--is-active {
     transform: scale(1.26);
