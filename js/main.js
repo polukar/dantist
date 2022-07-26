@@ -103,6 +103,7 @@ var _iterator = _createForOfIteratorHelper(anchors),
 try {
   var _loop = function _loop() {
     var anchor = _step.value;
+    var mobileMenu = document.querySelector('.mobile-nav');
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       var blockID = anchor.getAttribute('href').substr(1);
@@ -110,6 +111,10 @@ try {
         behavior: 'smooth',
         block: 'start'
       });
+
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+      }
     });
   };
 
@@ -198,26 +203,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ymaps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ymaps */ "./node_modules/ymaps/dist/ymaps.esm.js");
 
 var mapInfo = [{
+  title: "Беговой",
   underground: "Беговая",
   adress: "г. Москва, Хорошёвское шоссе, 48",
   color: "--purple",
   position: [55.776292, 37.535549]
 }, {
+  title: "Проспекте Мира",
   underground: "Проспект Мира",
   adress: "г. Москва, Проспект Мира 53с1",
   color: "--orange",
   position: [55.784804, 37.634170]
 }, {
+  title: "Раменках",
   underground: "Раменки",
   adress: "г. Москва, Столетова, 11",
   color: "--yellow",
   position: [55.703499, 37.499083]
 }, {
+  title: "Академической",
   underground: "Академическая",
   adress: "г. Москва, Винокурова, 2",
   color: "--orange",
   position: [55.689312, 37.581490]
 }, {
+  title: "Савёловской",
   underground: "Савёловская",
   adress: "г. Москва, Складочная, 1 стр 18",
   color: "--grey",
@@ -251,7 +261,7 @@ ymaps__WEBPACK_IMPORTED_MODULE_0__["default"].load('https://api-maps.yandex.ru/2
     mapUndergroundText.innerHTML = "";
     mapUndergroundTitle.innerHTML = "";
     mapUndergroundIco.setAttribute('class', 'under-ico');
-    mapTitle.innerHTML = mapInfo[ind].underground;
+    mapTitle.innerHTML = mapInfo[ind].title;
     mapUndergroundText.innerHTML = mapInfo[ind].underground;
     mapUndergroundIco.setAttribute('class', "under-ico ".concat(mapInfo[ind].color));
     mapUndergroundTitle.innerHTML = mapInfo[ind].adress;
@@ -364,6 +374,20 @@ var swiper = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.reports-slider
       spaceBetween: 32,
       slidesPerView: "auto"
     }
+  }
+});
+var swiperProd = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.production__slider  ', {
+  modules: [swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination],
+  loop: true,
+  slidesPerView: 1,
+  spaceBetween: 35,
+  pagination: {
+    el: '.swiper-pagination',
+    type: 'progressbar'
+  },
+  navigation: {
+    nextEl: '.production__nav .next-circle',
+    prevEl: '.production__nav .prev-circle'
   }
 });
 
