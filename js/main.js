@@ -71,6 +71,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_load__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_project_load__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./project/qwiz */ "./src/js/project/qwiz.js");
 /* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_project_qwiz__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _project_gallery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./project/gallery */ "./src/js/project/gallery.js");
+
 
 
 
@@ -126,6 +128,20 @@ try {
 } finally {
   _iterator.f();
 }
+
+/***/ }),
+
+/***/ "./src/js/project/gallery.js":
+/*!***********************************!*\
+  !*** ./src/js/project/gallery.js ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _fancyapps_ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fancyapps/ui */ "./node_modules/@fancyapps/ui/dist/fancybox.esm.js");
+
+_fancyapps_ui__WEBPACK_IMPORTED_MODULE_0__.Fancybox.bind("[data-fancybox]", {});
 
 /***/ }),
 
@@ -386,8 +402,27 @@ var swiperProd = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.production
     type: 'progressbar'
   },
   navigation: {
-    nextEl: '.production__nav .next-circle',
-    prevEl: '.production__nav .prev-circle'
+    nextEl: '.production__slider .next-circle',
+    prevEl: '.production__slider .prev-circle'
+  }
+});
+var doctorSliderNav = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".doctor__slider-nav", {
+  spaceBetween: 10,
+  slidesPerView: 3,
+  freeMode: true,
+  watchSlidesProgress: true,
+  loop: true,
+  modules: [swiper__WEBPACK_IMPORTED_MODULE_0__.Navigation, swiper__WEBPACK_IMPORTED_MODULE_0__.Pagination],
+  navigation: {
+    nextEl: '.doctor__slider-nav .next-circle',
+    prevEl: '.doctor__slider-nav .prev-circle'
+  }
+});
+var doctorSlider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".doctors__slider", {
+  spaceBetween: 10,
+  loop: true,
+  thumbs: {
+    swiper: doctorSliderNav
   }
 });
 
