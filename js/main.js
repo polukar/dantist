@@ -407,8 +407,8 @@ var swiperProd = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.production
   }
 });
 var doctorSliderNav = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".doctor__slider-nav", {
-  spaceBetween: 10,
-  slidesPerView: 3,
+  spaceBetween: 30,
+  slidesPerView: "auto",
   freeMode: true,
   watchSlidesProgress: true,
   loop: true,
@@ -416,6 +416,12 @@ var doctorSliderNav = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".docto
   navigation: {
     nextEl: '.doctor__slider-nav .next-circle',
     prevEl: '.doctor__slider-nav .prev-circle'
+  },
+  breakpoints: {
+    980: {
+      slidesPerView: 3,
+      spaceBetween: 10
+    }
   }
 });
 var doctorSlider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".doctors__slider", {
