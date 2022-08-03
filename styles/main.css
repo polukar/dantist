@@ -4160,6 +4160,14 @@ img {
   width: 115px;
 }
 
+.report-client__icon-pic.--rub img {
+  max-width: 80px;
+}
+
+.report-client__icon-pic.--flag img {
+  max-width: 90px;
+}
+
 .report-client__icon-info {
   width: calc(100% - 115px);
 }
