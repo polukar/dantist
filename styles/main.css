@@ -5075,6 +5075,10 @@ img {
   margin-bottom: 20px;
 }
 
+.first-controls__pic > img {
+  filter: drop-shadow(-20.4596px -15.913px 47.7391px rgba(255, 126, 7, 0.1));
+}
+
 .first-controls__name {
   font-weight: 200;
   font-size: 32px;
@@ -5574,7 +5578,13 @@ img {
   }
 
   .how__plus {
-    display: none;
+    width: 42px;
+    height: 42px;
+  }
+
+  .how__plus:after,
+  .how__plus:before {
+    width: 20px;
   }
 
   .how__item {
@@ -6384,6 +6394,13 @@ img {
     font-weight: 300;
     font-size: 20px;
     line-height: 150%;
+  }
+
+  .report-clients__buttons {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 

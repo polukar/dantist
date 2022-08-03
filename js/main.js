@@ -72,6 +72,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./project/qwiz */ "./src/js/project/qwiz.js");
 /* harmony import */ var _project_qwiz__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_project_qwiz__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _project_gallery__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./project/gallery */ "./src/js/project/gallery.js");
+/* harmony import */ var _project_tabs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./project/tabs */ "./src/js/project/tabs.js");
+/* harmony import */ var _project_tabs__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_project_tabs__WEBPACK_IMPORTED_MODULE_10__);
+
 
 
 
@@ -157,6 +160,7 @@ if (header) {
   var burger = header.querySelector('.burger');
   var mibileMenu = document.querySelector('.mobile-nav');
   var close = mibileMenu.querySelector('.close-menu');
+  var link = mibileMenu.querySelectorAll('.nav__link');
   burger.addEventListener('click', function () {
     mibileMenu.classList.add('active');
   });
@@ -180,6 +184,11 @@ if (header) {
     } else {
       header.classList.remove('--scroll');
     }
+  });
+  link.forEach(function (elem) {
+    elem.addEventListener('click', function () {
+      mibileMenu.classList.remove('active');
+    });
   });
 }
 
@@ -431,6 +440,44 @@ var doctorSlider = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".doctors_
     swiper: doctorSliderNav
   }
 });
+
+/***/ }),
+
+/***/ "./src/js/project/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/project/tabs.js ***!
+  \********************************/
+/***/ (function() {
+
+var reportButtons = document.querySelectorAll('.report-clients__button');
+var reportTabs = document.querySelectorAll('.report-clients__tab');
+
+if (reportButtons && reportTabs) {
+  var clearReportTabs = function clearReportTabs() {
+    reportButtons.forEach(function (elem) {
+      elem.classList.remove('-is-active');
+    });
+    reportTabs.forEach(function (elem) {
+      elem.classList.remove('-is-active');
+    });
+  };
+
+  reportButtons.forEach(function (elem, index) {
+    elem.addEventListener('click', function () {
+      clearReportTabs();
+      elem.classList.add('-is-active');
+      reportTabs[index].classList.add('-is-active');
+    });
+  });
+
+  window.onload = function () {
+    if (window.innerWidth < 600) {
+      clearReportTabs();
+      reportButtons[1].classList.add('-is-active');
+      reportTabs[1].classList.add('-is-active');
+    }
+  };
+}
 
 /***/ }),
 
