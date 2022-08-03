@@ -4212,6 +4212,14 @@ img {
   margin-right: 0px;
 }
 
+.report-client__photo:hover .report-client__photo-trigger {
+  opacity: 0;
+}
+
+.report-client__photo:hover .report-client__photo-pic {
+  filter: blur(0px);
+}
+
 .report-client__photo--before .report-client__photo-pic {
   filter: blur(10px);
 }
@@ -4905,7 +4913,7 @@ img {
 
 .control .what-prod__bottom {
   background: url(../img/control-2-bg.webp) no-repeat center top/cover;
-  padding: 240px 0;
+  padding: 140px 0 240px;
   position: relative;
 }
 
